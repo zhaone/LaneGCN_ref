@@ -2,6 +2,8 @@
 ![demo](./img/demo.png)
 Impelentation of LaneGCN ([Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf))
 
+[TOC]
+
 ## Intro
 
 LaneGCN is designed to predict vehicles' future motion. Tthis project is a personal impelentation for only learning and academic purposes of paper [Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf). **Uber's offical repo locates [here](https://github.com/uber-research/LaneGCN).**
@@ -20,55 +22,36 @@ I do hope and believe this project can help some learners get familiar with spat
 
 ## Prepare
 
-### Workspace
-
-1.  make a workspace
-
-```shell
-export LGCN_DIR = /home/$USER/lanegcn_workspace # or anywhere you want to the folder
-mkdir $LGCN_DIR
-```
-
-`$LGCN_DIR` will be your **work space** and it will be mounted on `/workspace` in the docker container.
-
-2.  clone this repro to `$LGCN_DIR`
-
-### Data preparation
-
-**Option1 (Recommend)**: use preprocessed data (about 40G)
-
-1.  download preprocessed data from [link]().
-2.  unpack the package to `$LGCN_DIR` directly.
-
-
-
-**Option2**: process data using scripts
-
-If you don't want to download preprocessed data, after you finish the `Environment preparation` step, you may process data by your self, you can
-
-1.  download raw data from argoverse and unpack them at `/$LGCN_DIR/datasets/argo/forecasting`
-
-2.  ```shell
-    cd data/LaneGCN
-    python dump.py
-    python pic2rec.py
-    ```
-
-This may take hours ...
-
 ### Environment preparation
 
-**Option1 (Recommend)**: use docker image
+1.  make sure you have `nvidia-docker` installed in your machine or follow the [instruction](https://github.com/NVIDIA/nvidia-docker#quick-start) to install it. 
 
-1.  make sure you have `nvidia-docker` installed in your machine or follow the [instruction](https://github.com/NVIDIA/nvidia-docker#quick-start) to install 
+2.  pull and start a container 
 
-2.  downlaod docker image from [link]() (you can also build it by your self, see [instruction](./docker)) and load.
-
-3.  ```shell
-    sh ./startc.sh $LGCN_DIR # start a container
+    ```shell
+    docker pull zhaone/lanegcn:v1 # cost some time, size: about 30G (with data)
+    sh ./startc.sh # start a container
     # you will get a container_id like: e563f358af72fd60c14c5a5...
     docker exec -it e563(your container_id) /bin/bash
     ```
+
+    All the following operations happen in the container.
+
+3.  now you should be at `/workspace/`of container, then clone this respo to `/workspace/` 
+
+    ```shell
+    git clone git@github.com:zhaone/LaneGCN_ref.git
+    ```
+
+### Data preparation
+
+In container `/workspace/`
+
+```shell
+tar -xzf ./datasets.tar.gz 
+```
+
+Bingo!
 
 ## Training
 
@@ -102,7 +85,7 @@ train() {
     --data_name "lanegcn" \ # data set name
     --data_version "full" \ # data set version
     --mode "train_eval" \ # experiment type
-    --save_path "/home/lgcn/lanegcn/train" \ # output dir
+    --save_path "/workspace/expout/lanegcn/train" \ # output dir
     --batch_size 32 \
     --reload "latest" # type of model loaded when resume the training, best or latest
 }
@@ -153,13 +136,34 @@ All the output of the experiment will be save in `save_path` which have the foll
     `-- meta.json # some meta info
 ```
 
-If you want to save output in the **host machine** rather than docker container, make sure you have writing **permission** of `save_path`.
+**Note: persist data in host machine**
 
-#### Visualize training
+If you want to save output in the **host machine** rather than docker container, you can add a volume bind in [startc.sh](./startsc.sh) like:
 
 ```shell
-tensorboard --logdir=your save_path
+docker run \
+    --runtime=nvidia \
+    --name lanegcn \
+    --rm \
+    --shm-size="20g" \
+    -d \
+    -v /tmp/lanegcn(your persisting host directory):/workspace/expout(root save_path in container) \ # add this binding to persist data in host machine
+    -p 0.0.0.0:16006:6006 \
+    -it \
+    zhaoyi/lanegcn:v3 \
 ```
+
+
+
+But make sure container have writing **permission** of host bind directory (like ... change permission of host bind dir to 777).
+
+### Visualize training
+
+```shell
+tensorboard --logdir=your save_path --bind_all --port 6006
+```
+
+Then you can access tensorboard by address `docker_host_machine_ip:16006` (port binding is in file [startc.sh](./startsc.sh).
 
 ## Evaluation
 
@@ -169,7 +173,7 @@ To evaluate model's performence on evluation set, run
 bash ./run_exp.sh lanegcn_ori val
 ```
 
-#### Visualize prediction
+### Visualize prediction
 
 If you want to visualize the prediction results, add `--enable_hook` args to
 
@@ -199,7 +203,7 @@ To generate prediction, run
 bash ./run_exp.sh lanegcn_ori _test
 ```
 
-#### Submit to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview)
+### Submit to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview)
 
 If you want to generate h5 result file that can be submitted on to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview), add `--enable_hook` args to
 
@@ -217,11 +221,11 @@ Output result file locates at `save_path/hooks/hook_test_submit/res_mgpu.h5`, th
 
 ## Performence
 
-#### Training
+Training
 
 ![train ade](./img/train_ade.png)
 
-#### Evalution reuslt
+Evalution reuslt
 
 ![eval result](./img/evalai.png)
 
