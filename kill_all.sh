@@ -1,0 +1,1 @@
+kill $(ps aux | grep "cli.py" | grep -v grep | awk '{print $2}')

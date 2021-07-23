@@ -1,0 +1,20 @@
+{
+  "rot_aug": false,
+  "pred_range": [-100.0, 100.0, -100.0, 100.0],
+  "num_scales": 6,
+  "n_actor": 128,
+  "n_map": 128,
+  "n_path": 128,
+  "actor2map_dist": 7.0,
+  "map2actor_dist": 6.0,
+  "actor2actor_dist":100.0,
+  "pred_size":30,
+  "pred_step":1,
+  "num_preds":30,
+  "num_mods":6,
+  "cls_coef":1.0,
+  "reg_coef":1.0,
+  "mgn":0.2,
+  "cls_th":2.0,
+  "cls_ignore":0.2
+}
