@@ -2,7 +2,23 @@
 ![demo](./img/demo.png)
 Impelentation of LaneGCN ([Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf))
 
-[TOC]
+Table of Contents
+=================
+
+* [LaneGCNi_ref](#lanegcni_ref)
+   * [Intro](#intro)
+   * [Prepare](#prepare)
+      * [Environment preparation](#environment-preparation)
+      * [Data preparation](#data-preparation)
+   * [Training](#training)
+      * [Visualize training](#visualize-training)
+   * [Evaluation](#evaluation)
+      * [Visualize prediction](#visualize-prediction)
+   * [Testing](#testing)
+      * [Submit to <a href="https://eval.ai/web/challenges/challenge-page/454/overview" rel="nofollow">Argo eval.ai</a>](#submit-to-argo-evalai)
+   * [Performence](#performence)
+   * [Other materials](#other-materials)
+   * [Contact](#contact)
 
 ## Intro
 
@@ -29,7 +45,7 @@ I do hope and believe this project can help some learners get familiar with spat
 2.  pull and start a container 
 
     ```shell
-    docker pull zhaone/lanegcn:v1 # cost some time, size: about 30G (with data)
+    docker pull zhaone/lanegcn:v1 # from docker hub. cost some time. size: about 30G (with data)
     sh ./startc.sh # start a container
     # you will get a container_id like: e563f358af72fd60c14c5a5...
     docker exec -it e563(your container_id) /bin/bash
