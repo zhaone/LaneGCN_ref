@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-# experiment.py
-# vim:fenc=utf-8
-#
-# Copyright © 2019 zhaoyi <smzhgle@gmail.com>
-#
-# Distributed under terms of the Apache V2.0 license.
 import pdb
 import pathlib
 import logging
