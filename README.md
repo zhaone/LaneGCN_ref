@@ -58,6 +58,7 @@ I do hope and believe this project can help some learners get familiar with spat
     ```shell
     git clone git@github.com:zhaone/LaneGCN_ref.git
     ```
+You can refer to [./docker](./docker) to see how to build the image.
 
 ### Data preparation
 

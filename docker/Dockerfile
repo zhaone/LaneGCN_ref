@@ -34,5 +34,7 @@ RUN pip install -r /home/lgcn/requirement.txt \
 RUN pip install -e /home/lgcn/argoverse-api
 
 WORKDIR /workspace
+# copy data
+COPY datasets.tar.gz /workspace/dataset.tar.gz
 
 CMD ["/bin/bash"]

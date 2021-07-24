@@ -2,9 +2,4 @@
 
 This is dockerfile for lanegcn experiments environment, the base image is `horovod/horovod:0.20.0-tf2.3.0-torch1.6.0-mxnet1.6.0.post0-py3.7-cuda10.1`
 
-## How to Build
-
-```shell
-git clone git@github.com:argoai/argoverse-api.git
-docker build -t zhaoyi/lanegcn:v3 .
-```
+Dockerfile is just for viewing, and cannot be built directly on your machine since processed data `dataset.tar.gz` is not provided (I don't have that big cloud storage...).
