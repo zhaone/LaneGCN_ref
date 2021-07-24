@@ -29,7 +29,7 @@ Though the implementation borrowed some official code (mostly in the model part)
 - refactors and reimplements some of LaneGCN and add more detailed comments
 - changes the whole framework to make it easier to carry experiments with other models.
 - reprocesses the data to [MXNet Recoard](https://mxnet.apache.org/versions/1.7/api/python/docs/api/mxnet/recordio/index.html) to make it more flexible to be used (compared with originally provided data, ref to [issue \#4](https://github.com/uber-research/LaneGCN/issues/4#issue-739058291)
-- add visualization and evaluation (to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview)) script
+- add visualization and evaluation (to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview)) script
 - provide a environemnt docker
 
 
