@@ -1,6 +1,6 @@
 # LaneGCNi_ref
 ![demo](./img/demo.png)
-Impelentation of LaneGCN ([Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf))
+Implementation of LaneGCN ([Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf))
 
 Table of Contents
 =================
@@ -22,19 +22,19 @@ Table of Contents
 
 ## Intro
 
-LaneGCN is designed to predict vehicles' future motion. Tthis project is a personal impelentation for only learning and academic purposes of paper [Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf). **Uber's offical repo locates [here](https://github.com/uber-research/LaneGCN).**
+LaneGCN is designed to predict vehicles' future motion. This project is a personal implementation for only learning and academic purposes of paper [Learning Lane Graph Representations for Motion Forecasting](https://arxiv.org/pdf/2007.13732.pdf). **Uber's official repo locates [here](https://github.com/uber-research/LaneGCN).**
 
-Though the implementation borrowed some official code (mostly in the model part), compared with offical project, this work:
+Though the implementation borrowed some official code (mostly in the model part), compared with official project, this work:
 
 - refactors and reimplements some of LaneGCN and add more detailed comments
 - changes the whole framework to make it easier to carry experiments with other models.
 - reprocesses the data to [MXNet Recoard](https://mxnet.apache.org/versions/1.7/api/python/docs/api/mxnet/recordio/index.html) to make it more flexible to be used (compared with originally provided data, ref to [issue \#4](https://github.com/uber-research/LaneGCN/issues/4#issue-739058291)
 - add visualization and evaluation (to [Argo eval.ai](https://eval.ai/web/challenges/challenge-page/454/overview)) script
-- provide a environemnt docker
+- provide an environment docker
 
 
 
-I do hope and believe this project can help some learners get familiar with spatial-temporal prediction and trajectory prediction conviniently and efficiently. If you find this work is interesting, please also see and refer to the [official work](https://github.com/uber-research/LaneGCN).
+I do hope and believe this project can help some learners get familiar with spatial-temporal prediction and trajectory prediction conveniently and efficiently. If you find this work is interesting, please also see and refer to the [official work](https://github.com/uber-research/LaneGCN).
 
 ## Prepare
 
@@ -53,7 +53,7 @@ I do hope and believe this project can help some learners get familiar with spat
 
     All the following operations happen in the container.
 
-3.  now you should be at `/workspace/`of container, then clone this respo to `/workspace/` 
+3.  now you should be at `/workspace/`of container, then clone this repo to `/workspace/` 
 
     ```shell
     git clone git@github.com:zhaone/LaneGCN_ref.git
@@ -78,7 +78,7 @@ To train the model, locate to root dir of this project and run
 bash ./run_exp.sh lanegcn_ori train
 ```
 
-Some experimenet args can be found and modified in file `commands/lanegcn_ori.sh`
+Some experiment args can be found and modified in file `commands/lanegcn_ori.sh`
 
 ```shell
 train() {
@@ -108,7 +108,7 @@ train() {
 }
 ```
 
-All the output of the experiment will be save in `save_path` which have the following structure:
+All the output of the experiment will be saved in `save_path` which have the following structure:
 
 ```plaintxt
 .
@@ -155,7 +155,7 @@ All the output of the experiment will be save in `save_path` which have the foll
 
 **Note: persist data in host machine**
 
-If you want to save output in the **host machine** rather than docker container, you can add a volume bind in [startc.sh](./startsc.sh) like:
+If you want to save the output in the **host machine** rather than docker container, you can add a volume bind in [startc.sh](./startsc.sh) like:
 
 ```shell
 docker run \
@@ -172,7 +172,7 @@ docker run \
 
 
 
-But make sure container have writing **permission** of host bind directory (like ... change permission of host bind dir to 777).
+But make sure container has writing **permission** of host bind directory (like ... change the permission of host bind dir to 777).
 
 ### Visualize training
 
@@ -184,7 +184,7 @@ Then you can access tensorboard by address `docker_host_machine_ip:16006` (port 
 
 ## Evaluation
 
-To evaluate model's performence on evluation set, run
+To evaluate model's performance on evaluation set, run
 
 ```shell
 bash ./run_exp.sh lanegcn_ori val
@@ -209,7 +209,7 @@ The predcition for each sample will be saved in `save_path/hooks/hook_eval_vis` 
 
 Note
 
--   It will draw each evaluation sample and its prediciton, press `ctrl+c` to stop ploting when you feel it is enough
+-   It will draw each evaluation sample and its prediction, press `ctrl+c` to stop plotting when you feel it is enough
 -   script locates at `util/argo_vis.py`. You can modify this script to customize.
 
 ## Testing
@@ -236,13 +236,13 @@ test() {
 
 Output result file locates at `save_path/hooks/hook_test_submit/res_mgpu.h5`, then you can upload it to the website.
 
-## Performence
+## Performance
 
 Training
 
 ![train ade](./img/train_ade.png)
 
-Evalution reuslt
+Evaluation result
 
 ![eval result](./img/evalai.png)
 
